@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run evaluation on K2 PANDC",
+			"type": "shell",
+			"command": "python",
+			"args": [
+				"src/evaluate.py",
+				"--model",
+				"models/xgb_tabular.pkl",
+				"--csv",
+				"data/k2pandc_2025.10.04_07.36.56.csv"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Evaluate with reports",
+			"type": "shell",
+			"command": ".\\.venv\\Scripts\\python.exe",
+			"args": [
+				"src\\evaluate.py",
+				"--model",
+				"models\\xgb_tabular.pkl",
+				"--csv",
+				"data\\k2pandc_2025.10.04_07.36.56.csv",
+				"--out",
+				"reports",
+				"--shap"
+			],
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
