@@ -68,6 +68,14 @@ def prepare_features_from_csv(csv_path: str, feature_names: list[str]):
     if cols_missing:
         X.loc[:, cols_missing] = np.nan
 
+    # Apply same log1p transform as training for skewed columns
+    skew_cols = [c for c in ['pl_orbper', 'koi_period', 'pl_rade', 'koi_prad', 'st_rad', 'st_mass', 'pl_insol'] if c in X.columns]
+    if skew_cols:
+        skew_mat = X[skew_cols].to_numpy(dtype=np.float64, copy=True)
+        np.clip(skew_mat, a_min=0, a_max=None, out=skew_mat)
+        skew_mat = np.log1p(skew_mat)
+        X.loc[:, skew_cols] = skew_mat
+
     # Compute medians once and fill
     med = X.median(numeric_only=True)
     X = X.fillna(med)
