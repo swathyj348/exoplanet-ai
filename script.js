@@ -45,26 +45,65 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle Start Exploring button click
     if (startButton) {
         startButton.addEventListener('click', function() {
-            // Show loading overlay
-            loadingOverlay.classList.add('show');
-            
-            // Check if Streamlit is already running
-            checkStreamlitStatus()
-                .then(isRunning => {
-                    if (isRunning) {
-                        // Streamlit is running, redirect to it
-                        window.location.href = 'http://localhost:8501';
-                    } else {
-                        // Start Streamlit application
-                        startStreamlitApp();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error checking Streamlit status:', error);
-                    // Try to start Streamlit anyway
-                    startStreamlitApp();
-                });
+            launchStreamlitApp();
         });
+    }
+    
+    // Handle other CTA buttons
+    const startPredicting = document.getElementById('startPredicting');
+    const startExplaining = document.getElementById('startExplaining');
+    
+    if (startPredicting) {
+        startPredicting.addEventListener('click', function() {
+            launchStreamlitApp();
+        });
+    }
+    
+    if (startExplaining) {
+        startExplaining.addEventListener('click', function() {
+            launchStreamlitApp();
+        });
+    }
+    
+    // Handle Learn More buttons
+    const learnMoreButtons = document.querySelectorAll('.learn-more-btn');
+    learnMoreButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Determine which card this button belongs to
+            const card = button.closest('.feature-card');
+            if (card) {
+                if (card.classList.contains('predict-card')) {
+                    window.location.href = 'predict.html';
+                } else if (card.classList.contains('explain-card')) {
+                    window.location.href = 'explain.html';
+                }
+            }
+        });
+    });
+    
+    // Centralized function to launch Streamlit
+    function launchStreamlitApp() {
+        // Show loading overlay
+        loadingOverlay.classList.add('show');
+        
+        // Check if Streamlit is already running
+        checkStreamlitStatus()
+            .then(isRunning => {
+                if (isRunning) {
+                    // Streamlit is running, redirect to it
+                    window.location.href = 'http://localhost:8501';
+                } else {
+                    // Start Streamlit application
+                    startStreamlitApp();
+                }
+            })
+            .catch(error => {
+                console.error('Error checking Streamlit status:', error);
+                // Try to start Streamlit anyway
+                startStreamlitApp();
+            });
     }
     
     // Parallax effect for background

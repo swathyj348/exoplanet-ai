@@ -25,6 +25,11 @@
                             <h1 class="title">Exoplanet Explorer</h1>
                             <p class="subtitle">NASA ML Research Platform</p>
                         </div>
+                        <nav class="nav-menu">
+                            <a href="index.html" class="nav-link active">Home</a>
+                            <a href="predict.html" class="nav-link">Predict</a>
+                            <a href="explain.html" class="nav-link">Explain</a>
+                        </nav>
                     </div>
                 </div>
             </header>
@@ -229,11 +234,44 @@
                             </p>
                         </div>
 
+                        <!-- Model Information -->
+                        <div class="footer-section">
+                            <h4 class="footer-subtitle">ML Model Details</h4>
+                            <div class="model-info">
+                                <div class="model-stat">
+                                    <span class="model-label">Algorithm:</span>
+                                    <span class="model-value">XGBoost Classifier</span>
+                                </div>
+                                <div class="model-stat">
+                                    <span class="model-label">Accuracy:</span>
+                                    <span class="model-value primary-text">98.7%</span>
+                                </div>
+                                <div class="model-stat">
+                                    <span class="model-label">Features:</span>
+                                    <span class="model-value">22 Parameters</span>
+                                </div>
+                                <div class="model-stat">
+                                    <span class="model-label">Training Data:</span>
+                                    <span class="model-value">NASA K2 Mission</span>
+                                </div>
+                                <div class="model-stat">
+                                    <span class="model-label">Classes:</span>
+                                    <span class="model-value">3 Categories</span>
+                                </div>
+                            </div>
+                            <p class="model-description">
+                                Our XGBoost model uses gradient boosted decision trees optimized for NASA's Kepler K2 mission data. 
+                                Key features include orbital period, planet radius, stellar mass, and equilibrium temperature.
+                            </p>
+                        </div>
+
                         <!-- Links -->
                         <div class="footer-section">
                             <h4 class="footer-subtitle">Resources</h4>
                             <ul class="footer-links">
                                 <li><a href="#about" class="footer-link">About</a></li>
+                                <li><a href="predict.html" class="footer-link">Prediction Details</a></li>
+                                <li><a href="explain.html" class="footer-link">Explainability</a></li>
                             </ul>
                         </div>
 
