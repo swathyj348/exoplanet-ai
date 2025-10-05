@@ -253,15 +253,9 @@ st.sidebar.caption("K2-adapted XGBoost • NASA-inspired UI")
 with st.sidebar:
 	st.markdown("**Model:** models/xgb_k2_adapt.pkl")
 	
-	# Debug path issues
-	import os
-	st.write(f"🔍 Current working directory: {os.getcwd()}")
-	st.write(f"🔍 Model path: {MODEL_PATH}")
-	st.write(f"🔍 Model path absolute: {MODEL_PATH.absolute()}")
-	st.write(f"🔍 Model exists: {MODEL_PATH.exists()}")
-	
 	if not MODEL_PATH.exists():
-		st.error("Model file not found. Please train the model first.")
+		st.error("❌ Model file not found. Please ensure the models directory is properly deployed.")
+		st.info("💡 For cloud deployment, model files must be included in the repository.")
 		st.stop()
 
 	sample_toggle = st.toggle("Use sample NASA K2 CSV", value=True)
@@ -336,7 +330,7 @@ if df_raw is None:
 	st.stop()
 
 st.markdown("### 🔎 Sample of Input Data")
-st.dataframe(df_raw.head(10), use_container_width=True)
+st.dataframe(df_raw.head(10), width=800)
 
 
 # ----------------------------
@@ -396,12 +390,11 @@ with col1:
 		label="📥 Download Probabilities CSV",
 		data=csv_buf,
 		file_name="exoplanet_predictions.csv",
-		mime="text/csv",
-		use_container_width=True
+		mime="text/csv"
 	)
 
 with col2:
-	st.plotly_chart(plot_probabilities(proba, row_select), use_container_width=True)
+	st.plotly_chart(plot_probabilities(proba, row_select), width=800)
 
 
 # ----------------------------
@@ -414,7 +407,7 @@ try:
 	shap_vals_row, base_val = compute_shap_for_row(explainer, x_row, cls_idx)
 	st.plotly_chart(
 		make_waterfall(feature_names, shap_vals_row, base_val, proba, cls_idx),
-		use_container_width=True
+		width=800
 	)
 except Exception as e:
 	st.warning(f"SHAP explainability unavailable: {e}")
@@ -427,7 +420,7 @@ st.markdown("### 📊 Distribution of Predicted Classes")
 cls_counts = pd.Series(preds).map(LABELS).value_counts()
 fig_counts = px.pie(values=cls_counts.values, names=cls_counts.index, hole=0.45, template="plotly_dark")
 fig_counts.update_layout(height=360)
-st.plotly_chart(fig_counts, use_container_width=True)
+st.plotly_chart(fig_counts, width=800)
 
 st.caption("Data source: NASA Exoplanet Archive • Model: XGBoost (K2-adapted) • Explainability: SHAP")
 

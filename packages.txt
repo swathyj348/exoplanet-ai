@@ -1,0 +1,2 @@
+# System packages for Streamlit Cloud (if needed)
+# Currently no additional system packages required
