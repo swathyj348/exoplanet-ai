@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exoplanet Explorer - AI-Powered Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-container">
+        <!-- Animated starfield background -->
+        <div class="background">
+            <div class="base-gradient"></div>
+            <div class="starfield"></div>
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <!-- Header -->
+            <header class="header">
+                <div class="container">
+                    <div class="header-content">
+                        <div class="logo-section">
+                            <h1 class="title">Exoplanet Explorer</h1>
+                            <p class="subtitle">NASA ML Research Platform</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <!-- Badge -->
+                        <div class="badge">
+                            <div class="pulse-dot"></div>
+                            <span>AI-Powered Exoplanet Detection</span>
+                        </div>
+                        
+                        <!-- Main Headline -->
+                        <h1 class="hero-title">
+                            Discover the Worlds
+                            <span class="gradient-text">Beyond Our Solar System</span>
+                        </h1>
+                        
+                        <!-- Subheadline -->
+                        <p class="hero-description">
+                            Harness machine learning to detect and analyze exoplanets using NASA's Kepler mission data with explainable AI
+                        </p>
+
+                        <!-- CTA Button -->
+                        <div class="cta-section">
+                            <button id="startExploring" class="cta-button">
+                                <span class="button-content">
+                                    Start Exploring
+                                    <svg class="telescope-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M8 16l-2.5 2.5L3 16l2.5-2.5L8 16z"/>
+                                        <path d="M15 7l-4 4 4 4-4-4z"/>
+                                        <path d="M21 3l-8.5 8.5"/>
+                                        <path d="M12.5 11.5L15 9"/>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="stats">
+                            <div class="stat">
+                                <div class="stat-value primary-text">5,502</div>
+                                <div class="stat-label">Confirmed Exoplanets</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value secondary-text">98.7%</div>
+                                <div class="stat-label">Model Accuracy</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value primary-text">Real-time</div>
+                                <div class="stat-label">Detection</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features">
+                <div class="container">
+                    <!-- Section Header -->
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            Advanced <span class="primary-text">ML Pipeline</span>
+                        </h2>
+                        <p class="section-description">
+                            Two integrated tools for comprehensive exoplanet analysis
+                        </p>
+                    </div>
+
+                    <!-- Feature Cards -->
+                    <div class="feature-cards">
+                        <!-- Predict Card -->
+                        <div class="feature-card predict-card">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-icon predict-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                    </svg>
+                                </div>
+                                
+                                <h3 class="card-title">Predict</h3>
+                                
+                                <p class="card-description">
+                                    State-of-the-art neural networks classify stellar objects and identify exoplanet candidates from light curve data.
+                                </p>
+                                
+                                <ul class="feature-list">
+                                    <li><span class="bullet primary-text">•</span> Deep learning classification</li>
+                                    <li><span class="bullet primary-text">•</span> Real-time inference</li>
+                                    <li><span class="bullet primary-text">•</span> Batch processing</li>
+                                </ul>
+
+                                <button class="learn-more-btn">
+                                    Learn more
+                                    <span class="arrow">→</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Explain Card -->
+                        <div class="feature-card explain-card">
+                            <div class="card-glow"></div>
+                            <div class="card-content">
+                                <div class="card-icon explain-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.51 2.51 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+                                    </svg>
+                                </div>
+                                
+                                <h3 class="card-title">Explain</h3>
+                                
+                                <p class="card-description">
+                                    SHAP-based interpretability reveals feature importance and provides transparent explanations for model decisions.
+                                </p>
+                                
+                                <ul class="feature-list">
+                                    <li><span class="bullet secondary-text">•</span> SHAP value analysis</li>
+                                    <li><span class="bullet secondary-text">•</span> Feature importance</li>
+                                    <li><span class="bullet secondary-text">•</span> Model transparency</li>
+                                </ul>
+
+                                <button class="learn-more-btn">
+                                    Learn more
+                                    <span class="arrow">→</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about">
+                <div class="container">
+                    <div class="about-grid">
+                        <!-- Image -->
+                        <div class="about-image">
+                            <div class="image-glow"></div>
+                            <img src="https://images.unsplash.com/photo-1709142221334-290c5a72de26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZWVwJTIwc3BhY2UlMjBuZWJ1bGF8ZW58MXx8fHwxNzU5NjQyOTM0fDA&ixlib=rb-4.1.0&q=80&w=1080" 
+                                 alt="Deep space nebula" class="nebula-image">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="about-content">
+                            <h2 class="about-title">
+                                Built on <span class="secondary-text">NASA Data</span>
+                            </h2>
+                            
+                            <p class="about-description">
+                                Powered by decades of astronomical research from NASA's Kepler and TESS missions, combined with cutting-edge machine learning and explainable AI techniques.
+                            </p>
+
+                            <div class="features-list">
+                                <div class="feature-item">
+                                    <div class="feature-icon primary-bg">
+                                        <span class="checkmark primary-text">✓</span>
+                                    </div>
+                                    <div class="feature-text">
+                                        <h4 class="feature-title">Verified NASA Datasets</h4>
+                                        <p class="feature-desc">Curated data from official Kepler and TESS missions</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <div class="feature-icon secondary-bg">
+                                        <span class="checkmark secondary-text">✓</span>
+                                    </div>
+                                    <div class="feature-text">
+                                        <h4 class="feature-title">Explainable AI</h4>
+                                        <p class="feature-desc">Transparent predictions with SHAP interpretability</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <div class="feature-icon primary-bg">
+                                        <span class="checkmark primary-text">✓</span>
+                                    </div>
+                                    <div class="feature-text">
+                                        <h4 class="feature-title">Open Research</h4>
+                                        <p class="feature-desc">Community-driven development for scientific advancement</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-grid">
+                        <!-- Brand -->
+                        <div class="footer-section">
+                            <h3 class="footer-title">Exoplanet Explorer</h3>
+                            <p class="footer-desc">
+                                Advancing exoplanet research through machine learning and explainable AI.
+                            </p>
+                        </div>
+
+                        <!-- Links -->
+                        <div class="footer-section">
+                            <h4 class="footer-subtitle">Resources</h4>
+                            <ul class="footer-links">
+                                <li><a href="#about" class="footer-link">About</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Data Credits -->
+                        <div class="footer-section">
+                            <h4 class="footer-subtitle">Data Sources</h4>
+                            <p class="footer-desc">
+                                Data courtesy of NASA Exoplanet Archive, Kepler Mission, and Exoplanet Orbit Database.
+                            </p>
+                            <div class="social-links">
+                                <a href="#" class="social-link" aria-label="GitHub">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0C5.37 0 0 5.37 0 12 0 17.31 3.435 21.795 8.205 23.385c.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                                    </svg>
+                                </a>
+                                <a href="#" class="social-link" aria-label="Twitter">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Copyright -->
+                    <div class="footer-bottom">
+                        <p class="copyright">© 2025 Exoplanet Explorer. Data courtesy of NASA Exoplanet Science Institute.</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Loading overlay for Streamlit launch -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3 class="loading-title">Launching Exoplanet Explorer</h3>
+            <p class="loading-text">Initializing ML models and NASA datasets...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
