@@ -1,0 +1,9 @@
+pl_name,hostname,pl_orbper,pl_rade,pl_masse,st_rad,st_mass,pl_insol,st_teff,disposition
+Earth,Sun,365.25,1.0,1.0,1.0,1.0,1.0,5778,CONFIRMED
+Jupiter,Sun,4333.0,11.21,317.8,1.0,1.0,0.037,5778,CONFIRMED
+Mars,Sun,687.0,0.532,0.107,1.0,1.0,0.43,5778,CONFIRMED
+Venus,Sun,224.7,0.949,0.815,1.0,1.0,1.91,5778,CONFIRMED
+Mercury,Sun,88.0,0.383,0.055,1.0,1.0,6.67,5778,CONFIRMED
+Saturn,Sun,10759.0,9.45,95.2,1.0,1.0,0.011,5778,CONFIRMED
+Neptune,Sun,60182.0,3.88,17.1,1.0,1.0,0.001,5778,CONFIRMED
+Uranus,Sun,30687.0,4.01,14.5,1.0,1.0,0.0025,5778,CONFIRMED

@@ -53,7 +53,22 @@ st.markdown(NASA_BG, unsafe_allow_html=True)
 # Utilities
 # ----------------------------
 MODEL_PATH = Path("models/xgb_k2_adapt.pkl")
-LABELS = {0: "Candidate", 1: "Confirmed Exoplanet", 2: "False Positive"}
+LABELS = {0: "Survey Candidate", 1: "Confirmed Exoplanet", 2: "False Positive"}
+
+# Add explanatory text for model interpretation
+MODEL_EXPLANATION = """
+⚠️ **Important**: This model was trained on NASA K2 exoplanet survey data to classify 
+astronomical observations, NOT to determine if celestial bodies are "real planets" or not.
+
+**Labels explained:**
+- 🔍 **Survey Candidate**: Potential exoplanet signal requiring further verification
+- ✅ **Confirmed Exoplanet**: Verified exoplanet from astronomical observations  
+- ❌ **False Positive**: Measurement error or stellar activity (not a real planet signal)
+
+**Note**: All solar system planets (Earth, Jupiter, etc.) would classify as "Confirmed Exoplanet" 
+in astronomical surveys since they ARE real planets! The model doesn't classify 
+"planet vs non-planet" but rather "survey signal quality".
+"""
 
 
 @st.cache_resource(show_spinner=False)
@@ -115,6 +130,32 @@ def prepare_features(df: pd.DataFrame, feature_names: list[str], imputer=None, s
 		'missing_cols': missing,
 	}
 	return Xa, X, coverage
+
+
+def check_data_distribution(X_filled: pd.DataFrame, feature_names: list[str]) -> dict:
+	"""Check if input data is within reasonable ranges based on training data expectations."""
+	warnings = []
+	
+	# Define expected ranges for key features (based on exoplanet survey data)
+	expected_ranges = {
+		'pl_orbper': (0.5, 10000),  # orbital period in days
+		'pl_rade': (0.1, 30),       # planet radius in Earth radii  
+		'st_rad': (0.1, 50),        # stellar radius in solar radii
+		'st_mass': (0.1, 10),       # stellar mass in solar masses
+		'pl_insol': (0.001, 1000),  # insolation flux
+		'st_teff': (2000, 10000),   # stellar temperature in K
+	}
+	
+	for feature in feature_names:
+		if feature in expected_ranges and feature in X_filled.columns:
+			values = X_filled[feature].dropna()
+			if len(values) > 0:
+				min_val, max_val = expected_ranges[feature]
+				out_of_range = values[(values < min_val) | (values > max_val)]
+				if len(out_of_range) > 0:
+					warnings.append(f"⚠️ **{feature}**: {len(out_of_range)} values outside expected range [{min_val}, {max_val}]")
+	
+	return {"warnings": warnings, "is_reliable": len(warnings) == 0}
 
 
 def apply_bias(proba: np.ndarray, bias: list[float] | np.ndarray | None) -> np.ndarray:
@@ -211,8 +252,17 @@ st.sidebar.caption("K2-adapted XGBoost • NASA-inspired UI")
 
 with st.sidebar:
 	st.markdown("**Model:** models/xgb_k2_adapt.pkl")
+	
+	# Debug path issues
+	import os
+	st.write(f"🔍 Current working directory: {os.getcwd()}")
+	st.write(f"🔍 Model path: {MODEL_PATH}")
+	st.write(f"🔍 Model path absolute: {MODEL_PATH.absolute()}")
+	st.write(f"🔍 Model exists: {MODEL_PATH.exists()}")
+	
 	if not MODEL_PATH.exists():
 		st.error("Model file not found. Please train the model first.")
+		st.stop()
 
 	sample_toggle = st.toggle("Use sample NASA K2 CSV", value=True)
 	uploaded = st.file_uploader("Upload a CSV (NASA format ok)", type=["csv"]) if not sample_toggle else None
@@ -223,16 +273,33 @@ with st.sidebar:
 # Header
 # ----------------------------
 st.markdown("""
-# 🌌 Exoplanet Classification (K2)
-Predict whether an object is a Candidate, Confirmed Exoplanet, or a False Positive, with explainability.
+# 🌌 Exoplanet Survey Classification (K2)
+Classify astronomical survey signals using NASA K2 mission data patterns.
 """)
+
+# Add model explanation
+with st.expander("📖 How to interpret predictions", expanded=False):
+	st.markdown(MODEL_EXPLANATION)
+
+# Add warning about solar system data
+st.info("💡 **Testing with Solar System planets?** They will correctly classify as 'Confirmed Exoplanet' since they ARE real planets detected in surveys!")
 
 
 # ----------------------------
 # Load model/pipeline
 # ----------------------------
-pipe, model, imputer, scaler, feature_names, bias = load_pipeline(MODEL_PATH)
-explainer = get_explainer(model)
+st.write(f"🤖 Loading model from: {MODEL_PATH}")
+if not MODEL_PATH.exists():
+	st.error(f"❌ Model file not found at: {MODEL_PATH}")
+	st.stop()
+
+try:
+	pipe, model, imputer, scaler, feature_names, bias = load_pipeline(MODEL_PATH)
+	explainer = get_explainer(model)
+	st.success(f"✅ Model loaded successfully! Features: {len(feature_names)}")
+except Exception as e:
+	st.error(f"❌ Error loading model: {e}")
+	st.stop()
 
 
 # ----------------------------
@@ -241,14 +308,27 @@ explainer = get_explainer(model)
 if sample_toggle:
 	# Use sample K2 PANDC file from data
 	data_files = sorted(Path("data").glob("k2pandc_*.csv"))
+	st.write(f"🔍 Debug: Found {len(data_files)} data files: {[f.name for f in data_files]}")
 	if data_files:
-		df_raw = pd.read_csv(data_files[-1], comment="#")
+		selected_file = data_files[-1]
+		st.write(f"📂 Loading file: {selected_file}")
+		try:
+			df_raw = pd.read_csv(selected_file, comment="#")
+			st.success(f"✅ Successfully loaded {len(df_raw)} rows from {selected_file.name}")
+		except Exception as e:
+			st.error(f"❌ Error loading file: {e}")
+			df_raw = None
 	else:
 		st.warning("No sample K2 CSV found in data/. Please upload a file.")
 		df_raw = None
 else:
 	if uploaded is not None:
-		df_raw = pd.read_csv(uploaded, comment="#")
+		try:
+			df_raw = pd.read_csv(uploaded, comment="#")
+			st.success(f"✅ Successfully loaded {len(df_raw)} rows from uploaded file")
+		except Exception as e:
+			st.error(f"❌ Error loading uploaded file: {e}")
+			df_raw = None
 	else:
 		df_raw = None
 
@@ -256,13 +336,23 @@ if df_raw is None:
 	st.stop()
 
 st.markdown("### 🔎 Sample of Input Data")
-st.dataframe(df_raw.head(10), width='stretch')
+st.dataframe(df_raw.head(10), use_container_width=True)
 
 
 # ----------------------------
 # Preprocess and Predict
 # ----------------------------
 Xa, X_df, coverage = prepare_features(df_raw, feature_names, imputer=imputer, scaler=scaler)
+
+# Check data distribution and show warnings
+distribution_check = check_data_distribution(X_df, feature_names)
+if not distribution_check["is_reliable"]:
+	with st.expander("⚠️ Data Quality Warnings", expanded=True):
+		st.warning("**Input data may be outside the model's training distribution:**")
+		for warning in distribution_check["warnings"]:
+			st.markdown(f"- {warning}")
+		st.markdown("**This may lead to unreliable predictions.** Model was trained on exoplanet survey data with specific ranges.")
+
 if coverage['missing'] > 0:
 	miss_ratio = coverage['missing'] / max(coverage['total'], 1)
 	if miss_ratio >= 0.5:
@@ -307,11 +397,11 @@ with col1:
 		data=csv_buf,
 		file_name="exoplanet_predictions.csv",
 		mime="text/csv",
-		width='stretch',
+		use_container_width=True
 	)
 
 with col2:
-	st.plotly_chart(plot_probabilities(proba, row_select), width='stretch', theme="streamlit")
+	st.plotly_chart(plot_probabilities(proba, row_select), use_container_width=True)
 
 
 # ----------------------------
@@ -324,8 +414,7 @@ try:
 	shap_vals_row, base_val = compute_shap_for_row(explainer, x_row, cls_idx)
 	st.plotly_chart(
 		make_waterfall(feature_names, shap_vals_row, base_val, proba, cls_idx),
-		width='stretch',
-		theme="streamlit",
+		use_container_width=True
 	)
 except Exception as e:
 	st.warning(f"SHAP explainability unavailable: {e}")
@@ -338,7 +427,7 @@ st.markdown("### 📊 Distribution of Predicted Classes")
 cls_counts = pd.Series(preds).map(LABELS).value_counts()
 fig_counts = px.pie(values=cls_counts.values, names=cls_counts.index, hole=0.45, template="plotly_dark")
 fig_counts.update_layout(height=360)
-st.plotly_chart(fig_counts, width='stretch', theme="streamlit")
+st.plotly_chart(fig_counts, use_container_width=True)
 
 st.caption("Data source: NASA Exoplanet Archive • Model: XGBoost (K2-adapted) • Explainability: SHAP")
 
